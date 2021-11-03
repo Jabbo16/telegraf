@@ -34,5 +34,11 @@ func (ki *KubernetesInventory) gatherDeployment(d v1.Deployment, acc telegraf.Ac
 		}
 	}
 
+	for key, val := range d.Labels {
+		if ki.labelFilter.Match(key) {
+			tags["label_"+key] = val
+		}
+	}
+
 	acc.AddFields(deploymentMeasurement, fields, tags)
 }

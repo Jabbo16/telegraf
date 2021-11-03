@@ -45,5 +45,11 @@ func (ki *KubernetesInventory) gatherStatefulSet(s v1.StatefulSet, acc telegraf.
 		}
 	}
 
+	for key, val := range s.Labels {
+		if ki.labelFilter.Match(key) {
+			tags["label_"+key] = val
+		}
+	}
+
 	acc.AddFields(statefulSetMeasurement, fields, tags)
 }

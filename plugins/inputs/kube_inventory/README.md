@@ -95,6 +95,11 @@ See the [CONFIGURATION.md][CONFIGURATION.md] for more details.
   # selector_include = []
   # selector_exclude = ["*"]
 
+  ## labels to be added as tags.  An empty array for both include and
+  ## exclude will include all labels.
+  # label_include = []
+  # label_exclude = ["*"]
+
   ## Optional TLS Config
   ## Trusted root certificates for server
   # tls_ca = "/path/to/cafile"

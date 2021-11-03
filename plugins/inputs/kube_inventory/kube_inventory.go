@@ -45,14 +45,19 @@ type KubernetesInventory struct {
 	NodeName string          `toml:"node_name"`
 	Log      telegraf.Logger `toml:"-"`
 
+	LabelInclude []string `toml:"label_include"`
+	LabelExclude []string `toml:"label_exclude"`
+
 	tls.ClientConfig
 	client     *client
 	httpClient *http.Client
 
 	selectorFilter filter.Filter
+	labelFilter    filter.Filter
 }
 
-func (*KubernetesInventory) SampleConfig() string {
+// SampleConfig returns a sample config
+func (ki *KubernetesInventory) SampleConfig() string {
 	return sampleConfig
 }
 
@@ -94,6 +99,11 @@ func (ki *KubernetesInventory) Gather(acc telegraf.Accumulator) (err error) {
 	}
 
 	ki.selectorFilter, err = filter.NewIncludeExcludeFilter(ki.SelectorInclude, ki.SelectorExclude)
+	if err != nil {
+		return err
+	}
+
+	ki.labelFilter, err = filter.NewIncludeExcludeFilter(ki.LabelInclude, ki.LabelExclude)
 	if err != nil {
 		return err
 	}
