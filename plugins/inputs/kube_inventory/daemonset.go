@@ -42,7 +42,7 @@ func (ki *KubernetesInventory) gatherDaemonSet(d v1.DaemonSet, acc telegraf.Accu
 
 	for key, val := range d.Labels {
 		if ki.labelFilter.Match(key) {
-			tags["label_"+key] = val
+			tags[key] = val
 		}
 	}
 

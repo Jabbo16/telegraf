@@ -40,6 +40,12 @@ func (ki *KubernetesInventory) gatherService(s corev1.Service, acc telegraf.Accu
 			tags["selector_"+key] = val
 		}
 	}
+	
+	for key, val := range s.Labels {
+		if ki.labelFilter.Match(key) {
+			tags[key] = val
+		}
+	}
 
 	var getPorts = func() {
 		for _, port := range s.Spec.Ports {

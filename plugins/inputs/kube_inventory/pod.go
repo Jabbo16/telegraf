@@ -115,7 +115,7 @@ func (ki *KubernetesInventory) gatherPodContainer(p corev1.Pod, cs corev1.Contai
 
 	for key, val := range p.Labels {
 		if ki.labelFilter.Match(key) {
-			tags["label_"+key] = val
+			tags[key] = val
 		}
 	}
 
